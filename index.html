@@ -1,0 +1,122 @@
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<style type="text/css">
+#form{
+  width: 340px;
+  height: 180px;
+  background: #cfe2f3;
+  border: 1px solid black;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 18px;
+  font-family: arial,sans-serif;
+}
+.clearfix:after{
+  content: '';
+  clear: both;
+  display: block;
+}
+.left{
+	width: 50%;
+	float: left;
+}
+.right{
+	width: 50%;
+	float: left;
+}
+.left label{
+	float: left;
+	width: 70px;
+}
+.right label{
+	float: left;
+	padding-left: 10px;
+	width: 70px;
+}
+.left input{
+	float: left;
+	width: 50px;
+	background: #cfe2f3;
+	border:1px solid black;
+	margin-left: 10px;
+}
+.right input{
+	float: left;
+	width: 50px;
+	background: #cfe2f3;
+	border:1px solid black;
+	margin-left: 10px;
+}
+.row{
+	position: relative;
+}
+.row:nth-of-type(n+2){
+	margin-top: 24px;
+}
+select{
+	width: 130px;
+    height: 24px;
+    background: #cfe2f3;
+    border: 1px solid black;
+}
+button{
+	height: 24px;
+    border: 1px solid black;
+    background: #cfe2f3;
+    position: absolute;
+    top: calc(100% - 24px);
+}
+</style>
+</head>
+<body>
+<div id="form">
+	<div class="row clearfix">
+		<div class="left">
+			<label>Value 1: </label>
+			<input id="i1" type="text" />
+		</div>
+		<div class="right">
+			<label>Value 2: </label>
+			<input id="i2" type="text" />
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="operationDiv left">
+			<label>Operation</label>
+			<select>
+				<option value="sum">Sum</option>
+				<option value="substraction">Substraction</option>
+				<option value="division">Division</option>
+				<option value="multiplication">Multiplication</option>
+			</select>
+		</div>
+		<button class="right">Calculate</button>
+	</div>
+	<div class="row">Result: <label id="result"></label></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('button').click(function(){
+		var sum1 = $("#i1").val();
+		var sum2 = $("#i2").val();
+		var op = $('select').val();
+		var request = {
+			values:[sum1, sum2],
+			operation:op
+		}
+		$.ajax({
+		  url: "endpoint.php",
+		  method: "POST",
+		  data: request,
+		  dataType: "json"
+		}).done(function(callback) {
+		 	$("#result").text(callback.Result);
+		});
+
+	});
+});
+</script>
+</body>
+</html>
